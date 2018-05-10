@@ -1,5 +1,6 @@
 import pygame
 from SpriteSheet_Functions import SpriteSheet
+from Sounds import *
 
 
 pygame.init()
@@ -43,6 +44,10 @@ class Mario(pygame.sprite.Sprite):
 	def move(self, deplacement):
 		self.rect.x += deplacement
 		self.switchImage()
+		#channel = mario_sounds[0].play()
+
+	def jump(self):
+		pass
 
 
 	def switchImage(self):
@@ -51,8 +56,15 @@ class Mario(pygame.sprite.Sprite):
 			self.currentImage = 0
 		else:
 			self.currentImage += 1
+
 		
-		self.image = self.images[self.currentImage]
+		if self.direction == "Right":
+			self.image = pygame.transform.flip(self.images[self.currentImage], True, False)
+		else:
+			self.image = self.images[self.currentImage]
+        
+
+		
 
 
 done = False
@@ -80,6 +92,11 @@ while not done:
 	if keys[pygame.K_LEFT]:
 		mario.direction = "Left"
 		mario.move(-xVectorMario)
+	elif keys[pygame.K_RIGHT]:
+		mario.direction = "Right"
+		mario.move(xVectorMario)
+	elif keys[pygame.K_SPACE]:
+		channel = mario_sounds[1].play()
 
 	
 	all_sprite_list.draw(screen)
