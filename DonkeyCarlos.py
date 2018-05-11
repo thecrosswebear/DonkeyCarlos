@@ -7,7 +7,8 @@ pygame.init()
 
 SIZE = [500,500]
 BLACK = [0,0,0]
-xVectorMario = 1
+SCALE_POURCENTAGE = 430
+xVectorMario = 3
 
 screen = pygame.display.set_mode(SIZE)
 all_sprite_list = pygame.sprite.Group()
@@ -25,7 +26,9 @@ class Mario(pygame.sprite.Sprite):
 	def __init__(self):
 		super(Mario, self).__init__()
 		self.images = self.setImages()
+		self.scaleImages()
 		self.image = self.setImage()
+		#self.image = pygame.transform.scale(self.image, (70, 84)) 
 		self.rect = self.image.get_rect()
 		self.rect.x = 400
 		self.rect.y = 200
@@ -56,12 +59,22 @@ class Mario(pygame.sprite.Sprite):
 			self.currentImage = 0
 		else:
 			self.currentImage += 1
-
 		
 		if self.direction == "Right":
 			self.image = pygame.transform.flip(self.images[self.currentImage], True, False)
 		else:
 			self.image = self.images[self.currentImage]
+
+		#self.image = pygame.transform.scale(self.image, (70, 84)) 
+
+	#print "test tableau", mario.images[0].get_rect().get_width()
+	#print "test tableau", mario.images[0].get_width()
+	def scaleImages(self, pourcentage = SCALE_POURCENTAGE):
+		for i in range(0, len(self.images)):
+			new_width = self.images[i].get_width() + (self.images[i].get_width() * (SCALE_POURCENTAGE/100))
+			new_height = self.images[i].get_height() + (self.images[i].get_height() * (SCALE_POURCENTAGE/100))
+
+			self.images[i] = pygame.transform.scale(self.images[i], (new_width, new_height)) 
         
 
 		
@@ -81,6 +94,14 @@ while not done:
 			done = True
 		if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_LEFT:
+					print "left"
+					#mario.direction = "Left"
+					#mario.move(-xVectorMario)
+				else:
+					print "right"
+					#mario.direction = "Right"
+					#mario.move(xVectorMario)
+
 					#mario.
 					#mario.move(-xVectorMario)
 					#mario.image = mario.images[3]
@@ -89,6 +110,7 @@ while not done:
 	keys = pygame.key.get_pressed()
 	if keys[pygame.K_ESCAPE]:
 		done = True
+	
 	if keys[pygame.K_LEFT]:
 		mario.direction = "Left"
 		mario.move(-xVectorMario)
@@ -97,10 +119,11 @@ while not done:
 		mario.move(xVectorMario)
 	elif keys[pygame.K_SPACE]:
 		channel = mario_sounds[1].play()
+	
 
 	
 	all_sprite_list.draw(screen)
-	clock.tick(60)
+	clock.tick(40)
 
 	pygame.display.update()
 
