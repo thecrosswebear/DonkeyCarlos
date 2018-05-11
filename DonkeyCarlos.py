@@ -27,7 +27,7 @@ pygame.display.set_caption("Dankey Kang")
 clock = pygame.time.Clock()
 
 
-SPRITE_SHEET_FILE = "Data/donkey-kong-sprite-sheet-2.png"
+SPRITE_SHEET_FILE = "Data/donkey-kong-sprite-sheet-2-transparent.png"
 SPRITE_SHEET = SpriteSheet(SPRITE_SHEET_FILE)
 
 LEVEL_COORD = (6,340,239,275)
