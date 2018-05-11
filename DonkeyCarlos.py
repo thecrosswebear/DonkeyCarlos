@@ -5,10 +5,21 @@ from Sounds import *
 
 pygame.init()
 
-SIZE = [500,500]
+'''
+background-position: -6px -340px; 
+width: 239px;
+height: 275px;
+'''
+
+
+
+
+
+SIZE = [478,550]
 BLACK = [0,0,0]
-SCALE_POURCENTAGE = 430
-xVectorMario = 3
+SCALE_POURCENTAGE = 100
+#xVectorMario = 5 #scaled at 430%
+xVectorMario = 2 #not scaled
 
 screen = pygame.display.set_mode(SIZE)
 all_sprite_list = pygame.sprite.Group()
@@ -19,14 +30,26 @@ clock = pygame.time.Clock()
 SPRITE_SHEET_FILE = "Data/donkey-kong-sprite-sheet-2.png"
 SPRITE_SHEET = SpriteSheet(SPRITE_SHEET_FILE)
 
-MARIO_COORD = [(10,200,20,24),(30,200,20,24), (50,200,20,24)]
+LEVEL_COORD = (6,340,239,275)
+MARIO_COORD = [(10,200,20,20),(30,200,20,20), (50,200,20,20)]
+
+def scaleImage(image, pourcentage = SCALE_POURCENTAGE):
+		new_width = image.get_width() + (image.get_width() * (SCALE_POURCENTAGE/100))
+		new_height = image.get_height() + (image.get_height() * (SCALE_POURCENTAGE/100))
+		print "new width: ",new_width
+		print "new height: ", new_height
+		return pygame.transform.scale(image, (new_width, new_height)) 
+		#image = pygame.transform.scale(image, (new_width, new_height)) 
+		#return image
+
+level_image = scaleImage(SPRITE_SHEET.imgat(LEVEL_COORD))		
 
 
 class Mario(pygame.sprite.Sprite):
 	def __init__(self):
 		super(Mario, self).__init__()
 		self.images = self.setImages()
-		self.scaleImages()
+		self.scaleImages(SCALE_POURCENTAGE)
 		self.image = self.setImage()
 		#self.image = pygame.transform.scale(self.image, (70, 84)) 
 		self.rect = self.image.get_rect()
@@ -52,6 +75,20 @@ class Mario(pygame.sprite.Sprite):
 	def jump(self):
 		pass
 
+	def update(self, deplacementMario):
+		self.rect.x += deplacementMario
+		pos = self.rect.x
+
+		if self.direction == "Right":
+			frame = (pos //3) % len(self.images)
+			self.image = pygame.transform.flip(self.images[frame], True, False)
+			#self.image = self.images[frame]
+		else:
+			frame = (pos //3) % len(self.images)
+			self.image = self.images[frame]
+
+
+
 
 	def switchImage(self):
 
@@ -76,8 +113,7 @@ class Mario(pygame.sprite.Sprite):
 
 			self.images[i] = pygame.transform.scale(self.images[i], (new_width, new_height)) 
         
-
-		
+	
 
 
 done = False
@@ -88,6 +124,7 @@ all_sprite_list.add(mario)
 
 while not done:
 	screen.fill(BLACK)
+	screen.blit(level_image, (0,0))
 
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -113,10 +150,12 @@ while not done:
 	
 	if keys[pygame.K_LEFT]:
 		mario.direction = "Left"
-		mario.move(-xVectorMario)
+		#mario.move(-xVectorMario)
+		mario.update(-xVectorMario)
 	elif keys[pygame.K_RIGHT]:
 		mario.direction = "Right"
-		mario.move(xVectorMario)
+		#mario.move(xVectorMario)
+		mario.update(xVectorMario)
 	elif keys[pygame.K_SPACE]:
 		channel = mario_sounds[1].play()
 	

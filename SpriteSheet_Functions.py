@@ -45,18 +45,3 @@ class SpriteSheet(object):
             imgs.append(self.imgat(rect, colorkey))
         return imgs
 
-"""
-class SpriteSheet:
-    def __init__(self, filename):
-        self.sheet = load_image(filename)
-    def imgat(self, rect, colorkey = None):
-        rect = Rect(rect)
-        image = pygame.Surface(rect.size).convert()
-        image.blit(self.sheet, (0, 0), rect)
-        return imgcolorkey(image, colorkey)
-    def imgsat(self, rects, colorkey = None):
-        imgs = []
-        for rect in rects:
-            imgs.append(self.imgat(rect, colorkey))
-        return imgs
-"""
