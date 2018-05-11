@@ -5,18 +5,10 @@ from Sounds import *
 
 pygame.init()
 
-'''
-background-position: -6px -340px; 
-width: 239px;
-height: 275px;
-'''
-
-
-
-
 
 SIZE = [478,550]
 BLACK = [0,0,0]
+WHITE = [255,255,255]
 SCALE_POURCENTAGE = 100
 #xVectorMario = 5 #scaled at 430%
 xVectorMario = 2 #not scaled
@@ -27,7 +19,7 @@ pygame.display.set_caption("Dankey Kang")
 clock = pygame.time.Clock()
 
 
-SPRITE_SHEET_FILE = "Data/donkey-kong-sprite-sheet-2-transparent.png"
+SPRITE_SHEET_FILE = "Data/donkey-kong-sprite-sheet-2.png"
 SPRITE_SHEET = SpriteSheet(SPRITE_SHEET_FILE)
 
 LEVEL_COORD = (6,340,239,275)
@@ -42,7 +34,7 @@ def scaleImage(image, pourcentage = SCALE_POURCENTAGE):
 		#image = pygame.transform.scale(image, (new_width, new_height)) 
 		#return image
 
-level_image = scaleImage(SPRITE_SHEET.imgat(LEVEL_COORD))		
+level_image = scaleImage(SPRITE_SHEET.imgat(LEVEL_COORD))	
 
 
 class Mario(pygame.sprite.Sprite):
@@ -60,11 +52,12 @@ class Mario(pygame.sprite.Sprite):
 		
 	def setImages(self):
 			
+			#images = SPRITE_SHEET.imgsat(MARIO_COORD,-1)
 			images = SPRITE_SHEET.imgsat(MARIO_COORD)
 			return images
 	
 	def setImage(self):
-				
+		#self.image[0].fill(WHITE)	
 		return self.images[0]
 
 	def move(self, deplacement):
@@ -123,9 +116,9 @@ print("len de mario: "), len(mario.images)
 all_sprite_list.add(mario)
 
 while not done:
-	screen.fill(BLACK)
-	screen.blit(level_image, (0,0))
-
+	screen.fill(WHITE)
+	#screen.blit(level_image, (0,0))
+	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			done = True
