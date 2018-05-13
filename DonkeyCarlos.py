@@ -23,8 +23,8 @@ SPRITE_SHEET_FILE = "Data/donkey-kong-sprite-sheet-2.png"
 SPRITE_SHEET = SpriteSheet(SPRITE_SHEET_FILE)
 
 LEVEL_COORD = (6,340,239,275)
-MARIO_COORD = [(10,200,20,20),(30,200,20,20), (50,200,20,20)]
-
+#MARIO_COORD = [(10,200,20,20),(30,200,20,20), (50,200,20,20)]
+MARIO_COORD = [(14,200,18,20),(31,200,18,20), (51,200,18,20)]
 def scaleImage(image, pourcentage = SCALE_POURCENTAGE):
 		new_width = image.get_width() + (image.get_width() * (SCALE_POURCENTAGE/100))
 		new_height = image.get_height() + (image.get_height() * (SCALE_POURCENTAGE/100))
@@ -53,7 +53,7 @@ class Mario(pygame.sprite.Sprite):
 	def setImages(self):
 			
 			#images = SPRITE_SHEET.imgsat(MARIO_COORD,-1)
-			images = SPRITE_SHEET.imgsat(MARIO_COORD)
+			images = SPRITE_SHEET.imgsat(MARIO_COORD,-1)
 			return images
 	
 	def setImage(self):
@@ -73,11 +73,11 @@ class Mario(pygame.sprite.Sprite):
 		pos = self.rect.x
 
 		if self.direction == "Right":
-			frame = (pos //3) % len(self.images)
+			frame = (pos /3) % len(self.images)
 			self.image = pygame.transform.flip(self.images[frame], True, False)
 			#self.image = self.images[frame]
 		else:
-			frame = (pos //3) % len(self.images)
+			frame = (pos /3) % len(self.images)
 			self.image = self.images[frame]
 
 
@@ -116,8 +116,8 @@ print("len de mario: "), len(mario.images)
 all_sprite_list.add(mario)
 
 while not done:
-	screen.fill(WHITE)
-	#screen.blit(level_image, (0,0))
+	#screen.fill(WHITE)
+	screen.blit(level_image, (0,0))
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -139,6 +139,8 @@ while not done:
 
 	keys = pygame.key.get_pressed()
 	if keys[pygame.K_ESCAPE]:
+		for i in range(1,100):
+			print("Module %d mod 3: %d " % (i, i/4 % 3))
 		done = True
 	
 	if keys[pygame.K_LEFT]:
@@ -158,5 +160,6 @@ while not done:
 	clock.tick(40)
 
 	pygame.display.update()
+
 
 pygame.quit()
