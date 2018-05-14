@@ -45,8 +45,8 @@ class Mario(pygame.sprite.Sprite):
 		self.image = self.setImage()
 		#self.image = pygame.transform.scale(self.image, (70, 84)) 
 		self.rect = self.image.get_rect()
-		self.rect.x = 400
-		self.rect.y = 200
+		self.rect.x = 14
+		self.rect.y = 470
 		self.currentImage = 0
 		self.direction = "Left"
 		
@@ -60,16 +60,12 @@ class Mario(pygame.sprite.Sprite):
 		#self.image[0].fill(WHITE)	
 		return self.images[0]
 
-	def move(self, deplacement):
-		self.rect.x += deplacement
-		self.switchImage()
-		#channel = mario_sounds[0].play()
-
 	def jump(self):
 		pass
 
 	def update(self, deplacementMario):
 		self.rect.x += deplacementMario
+		print self.rect
 		pos = self.rect.x
 
 		if self.direction == "Right":
